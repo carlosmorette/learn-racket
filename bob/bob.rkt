@@ -1,0 +1,24 @@
+#lang racket
+
+(provide response-for)
+
+(define (is-question? str)
+  (define last-char (string-ref str (sub1 (string-length str))))
+  (if (equal? (string last-char) "?") #t  #f))
+
+(define (is-scream? str)
+  (define x (equal? str (string-upcase str)))
+  (define y (or (regexp-match #rx"[a-zA-Z]" str) (regexp-match #rx"\\p{Lu}{2,}" str)))
+  (and x y))
+
+(define (is-silence? str)
+  (if (regexp-match #rx"\\?" str) #f 
+      (or (regexp-match #px"\\s{2}" str) (regexp-match #rx"^$" str))))
+
+(define (response-for str)
+  (cond 
+    [(is-silence? (string-trim str)) "Fine. Be that way!"]
+    [(and (is-question? str) (is-scream? str)) "Calm down, I know what I'm doing!"]
+    [(is-question? str) "Sure."]
+    [(is-scream? str) "Whoa, chill out!"]
+    [else "Whatever."]))
