@@ -1,0 +1,19 @@
+#lang racket
+
+(provide isogram? reducer)
+
+; First solution
+;(define (isogram? s)
+;  (define a (string->list s))
+;
+;  (for/fold ([acc '()]) ([l a]) 
+;    (if (member l acc) '() (append (list l) acc) )))
+
+(define (isogram? s)
+  (define list-of-string (string->list s))
+  (reducer list-of-string (list)))
+
+(define (reducer list-of-string state)
+  (if (empty? list-of-string) #t
+    (if (member (car list-of-string) state) #f 
+    (reducer (cdr list-of-string) (append (list (car list-of-string)) state)))))
