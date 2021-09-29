@@ -15,7 +15,7 @@
 
 (define (reducer los state)
   (if (empty? los) #t
-      (if (member (car los) state) #f 
+      (if (member (first los) state) #f 
           (reducer 
-           (cdr los) 
-           (append (list (car los)) state)))))
+           (rest los) 
+           (append (list (first los)) state)))))
